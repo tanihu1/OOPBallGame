@@ -8,17 +8,14 @@ import java.util.Random;
  * The class represents a ball object with a center, radius, color, and velocity.
  * It also handles the ball's interactions with defined borders and inverse borders.
  */
-public class Ball {
+public class Ball implements Sprite {
     private Point center; //Ball center point
     private final int r; //Ball radius
     private java.awt.Color color; //Ball color
     private Velocity velocity = new Velocity(0, 0); //Ball velocity
     //Borders
-    private Border[] borders = new Border[0]; //Ball border list
-    private int numBorders = 0;
-    private Border[] inverseBorders = new Border[0]; //Ball inverse border list
-    private int numInverseBorders = 0;
     private final double cmp = 0.00001;
+    private GameEnvironment g;
 
     /**
      * Ball constructor with point arg for center.
@@ -40,11 +37,13 @@ public class Ball {
      * @param y     y coordinate of center.
      * @param r     radius of ball.
      * @param color color of ball.
+     * @param g     Game Environment reference.
      */
-    public Ball(int x, int y, int r, java.awt.Color color) {
+    public Ball(int x, int y, int r, java.awt.Color color, GameEnvironment g) {
         this.center = new Point((double) x, (double) y);
         this.r = r;
         this.color = color;
+        this.g = g;
     }
 
     /**
@@ -54,15 +53,18 @@ public class Ball {
      * @param y     y coordinate of center.
      * @param r     radius of ball.
      * @param color color of ball.
+     * @param g     Game Environment reference.
      */
-    public Ball(double x, double y, int r, java.awt.Color color) {
+    public Ball(double x, double y, int r, java.awt.Color color, GameEnvironment g) {
         this.center = new Point((double) x, (double) y);
         this.r = r;
         this.color = color;
+        this.g = g;
     }
 
     /**
      * Simple double comparing function.
+     *
      * @param x first double.
      * @param y second double.
      * @return true if doubles are equal up to 5 digits.
@@ -156,107 +158,40 @@ public class Ball {
     public Velocity getVelocity() {
         return velocity;
     }
-    //BORDER LOGIC
-
-    /**
-     * A method to add a border to the ball.
-     *
-     * @param x the starting point of the border
-     * @param y the ending point of the border
-     */
-    public void addBorder(Point x, Point y) {
-        //Compensating diameter
-        x = new Point(x.getX() + 2 * r, x.getY() + 2 * r);
-        y = new Point(y.getX() - 2 * r, y.getY() - 2 * r);
-        borders = Arrays.copyOf(borders, numBorders + 1);
-        borders[numBorders++] = new Border(x, y);
+    public void timePassed(){
+        moveOneStep();
     }
-
-    /**
-     * A method to add an inverse border to the Ball object.
-     * Inverse borders are the opposite of regular borders.
-     *
-     * @param x the starting point of the inverse border
-     * @param y the ending point of the inverse border
-     */
-    public void addInverseBorder(Point x, Point y) {
-        //Compensating diameter
-        x = new Point(x.getX() - 2 * r, x.getY() - 2 * r);
-        y = new Point(y.getX() + 2 * r, y.getY() + 2 * r);
-        inverseBorders = Arrays.copyOf(inverseBorders, numInverseBorders + 1);
-        inverseBorders[numInverseBorders++] = new Border(x, y);
-    }
-
-    /**
-     * A method to check if a given point is inside a specified border.
-     *
-     * @param b   the border to check against
-     * @param loc the location (point) to check
-     * @return true if the point is inside the border, false otherwise
-     */
-    private boolean pointInsideBorder(Border b, Point loc) {
-        return (loc.getX() > b.getStart().getX()
-                && loc.getX() < b.getEnd().getX()
-                && loc.getY() > b.getStart().getY()
-                && loc.getY() < b.getEnd().getY());
-    }
-
-    /**
-     * A function to move the ball one step, handling collisions with borders.
-     */
     public void moveOneStep() {
-        //Velocity offset to make the ball movement a bit random and more natural
-        java.util.Random rand = new java.util.Random();
-        double vOffset = -rand.nextDouble(); //On unix bound must not be defined inside func.
-        center = velocity.applyToPoint(center);
-        //Iterating over each registered border and test for collision
-        for (Border border : borders) {
-            //If a collision is detected, we change the location and reverse the velocity
-            if (center.getX() < border.getStart().getX()) {
-                center.changeX(border.getStart().getX());
-                velocity.changeDirection(vOffset * velocity.getDx(), velocity.getDy());
-            } else if (center.getX() > border.getEnd().getX()) {
-                center.changeX(border.getEnd().getX());
-                velocity.changeDirection(vOffset * velocity.getDx(), velocity.getDy());
+        Point futureLoc = new Point(this.getX() + this.getVelocity().getDx(),
+                this.getY() + this.getVelocity().getDy());
+        Line trajectory = new Line(this.center,futureLoc);
+        CollisionInfo collision = g.getClosestCollision(trajectory);
+        if(collision!=null){
+            CollisionInfo collision2 = g.getClosestCollision(trajectory);
+            switch (collision.getCollisionSide()) {
+                case TOP:
+                    futureLoc = new Point(this.getX(),collision.collisionPoint().getY() - this.getSize());
+                    break;
+                case BOTTOM:
+                    futureLoc = new Point(this.getX(),collision.collisionPoint().getY() + this.getSize());
+                    break;
+                case LEFT:
+                    futureLoc = new Point(collision.collisionPoint().getX() - this.getSize(),this.getY());
+                    break;
+                case RIGHT:
+                    futureLoc = new Point(collision.collisionPoint().getX() + this.getSize(),this.getY());
+                    break;
+                default:
+                    break;
             }
-            if (center.getY() < border.getStart().getY()) {
-                center.changeY(border.getStart().getY());
-                velocity.changeDirection(velocity.getDx(), vOffset * velocity.getDy());
-            } else if (center.getY() > border.getEnd().getY()) {
-                center.changeY(border.getEnd().getY());
-                velocity.changeDirection(velocity.getDx(), vOffset * velocity.getDy());
-            }
+            this.center = futureLoc;
+            this.setVelocity(collision.collisionObject().hit(collision.collisionPoint(),this.getVelocity()));
+        }else{
+            this.center = futureLoc;
         }
-        //Iterating over each inverse border and applying the opposite logic
-        final int leftX = 0;
-        final int topY = 1;
-        final int rightX = 2;
-        final int bottomY = 3;
-        for (Border border : inverseBorders) {
-            if (pointInsideBorder(border, center)) {
-                //Axis represent The axis of the border hit by the ball
-                int axis = border.closetAxis(center);
-                switch (axis) {
-                    case leftX:
-                        center.changeX(border.getStart().getX());
-                        velocity.changeDirection(vOffset * velocity.getDx(), velocity.getDy());
-                        break;
-                    case topY:
-                        center.changeY(border.getStart().getY());
-                        velocity.changeDirection(velocity.getDx(), vOffset * velocity.getDy());
-                        break;
-                    case rightX:
-                        center.changeX(border.getEnd().getX());
-                        velocity.changeDirection(vOffset * velocity.getDx(), velocity.getDy());
-                        break;
-                    case bottomY:
-                        center.changeY(border.getEnd().getY());
-                        velocity.changeDirection(velocity.getDx(), vOffset * velocity.getDy());
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
+    }
+
+    public void addToGame(Game game) {
+        game.addSprite(this);
     }
 }

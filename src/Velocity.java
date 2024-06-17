@@ -33,10 +33,18 @@ public class Velocity {
      * @param speed the speed of the velocity
      * @return a new Velocity object with the calculated dx and dy components
      */
-    public static Velocity fromAngleAndSpeed(double angle, double speed) {
+    public Velocity fromAngleAndSpeed(double angle, double speed) {
         double dx = speed * Math.cos(angle);
         double dy = speed * Math.sin(angle);
         return new Velocity(dx, dy);
+    }
+    public void changeAngle(int angle) {
+        double radians = Math.toRadians(angle);
+        double cosTheta = Math.cos(radians);
+        double sinTheta = Math.sin(radians);
+        double[] newVelocity = applyRotation(dx, dy, radians);
+        this.dx = -newVelocity[0] * cosTheta + newVelocity[1] * sinTheta;
+        this.dy = newVelocity[0] * sinTheta - newVelocity[1] * cosTheta;
     }
 
     /**
@@ -83,7 +91,6 @@ public class Velocity {
     private double[] applyRotation(double x, double y, double angle) {
         double cosTheta = Math.cos(angle);
         double sinTheta = Math.sin(angle);
-
         return new double[]{x * cosTheta - y * sinTheta, x * sinTheta + y * cosTheta};
     }
 

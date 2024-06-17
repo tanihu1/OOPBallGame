@@ -364,4 +364,18 @@ public class Line {
         intersections.add(p2);
         return intersections;
     }
+    // If this line does not intersect with the rectangle, return null.
+    // Otherwise, return the closest intersection point to the
+    // start of the line.
+    public Point closestIntersectionToStartOfLine(Rectangle rect){
+        java.util.List<Point> intersections = rect.intersectionPoints(this);
+        Point result = null;
+        double currentDistance = Double.POSITIVE_INFINITY;
+        for(Point point:intersections){
+            if(this.start().distance(point)<currentDistance){
+                result = point;
+            }
+        }
+        return result;
+    }
 }
