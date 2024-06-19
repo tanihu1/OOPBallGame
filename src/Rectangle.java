@@ -81,7 +81,6 @@ public class Rectangle implements Collidable, Sprite{
     public Rectangle getCollisionRectangle() {
         return this;
     }
-
     public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
         //Velocity offset to make the ball movement a bit random and more natural
         java.util.Random rand = new java.util.Random();
@@ -119,9 +118,10 @@ public class Rectangle implements Collidable, Sprite{
     public void timePassed(){
         return;
     }
+    //FIXME When block is removed, collidable still exists (Sprite's gone)
     public void addToGame(Game g){
-        g.addCollidable(this);
-        g.addSprite(this);
+        g.addCollidable(this.getCollisionRectangle());
+        g.addSprite(this.getCollisionRectangle());
     }
 
     public Color getColor() {

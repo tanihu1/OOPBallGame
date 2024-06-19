@@ -2,12 +2,19 @@ import java.util.ArrayList;
 
 public class GameEnvironment {
     private final java.util.List<Collidable> collidables = new ArrayList<>();
+    private final java.util.List<Collidable> removeQueue = new ArrayList<>();
     // add the given collidable to the environment.
     public void addCollidable(Collidable c){
         collidables.add(c);
     }
-    public void removeCollidable(Collidable c) {
-        collidables.remove(c);
+    public void addToRemoveQueue(Collidable c) {
+        removeQueue.add(c);
+    }
+    private void removeCollidables(){
+        for(Collidable c:removeQueue){
+            collidables.remove(c);
+        }
+        removeQueue.clear();
     }
     // Assume an object moving from line.start() to line.end().
     // If this object will not collide with any of the collidables

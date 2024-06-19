@@ -1,7 +1,6 @@
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
-import org.w3c.dom.css.Rect;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -32,16 +31,16 @@ public class Game {
         this.sprites.addSprite(s);
     }
     public void removeCollidable(Collidable c){
-        this.environment.removeCollidable(c);
+        this.environment.addToRemoveQueue(c);
     }
     public void removeSprite(Sprite s){
         this.sprites.removeSprite(s);
     }
-    private java.util.ArrayList<Rectangle> createBlockList(){
-        java.util.ArrayList<Rectangle> blockList = new java.util.ArrayList<>();
+    private java.util.ArrayList<Block> createBlockList(){
+        java.util.ArrayList<Block> blockList = new java.util.ArrayList<>();
         int numBlocksPerRow = 10;
         int numRows = 5;
-        int padding = 4;
+        int padding = 2;
         int blockWidthArea = screenWidth;
         int blockHeightArea = 150;
         int blockWidth = ( blockWidthArea - (numBlocksPerRow + 1) * padding) / numBlocksPerRow;
@@ -50,7 +49,7 @@ public class Game {
             for (int col = 0; col < numBlocksPerRow; col++) {
                 int x = col * (blockWidth + padding) + padding;
                 int y = row * (blockHeight + padding) + padding;
-                Rectangle block = new Rectangle(new Point(x, y), blockWidth, blockHeight);
+                Block block = new Block(new Point(x, y), blockWidth, blockHeight,this);
                 block.setColor(Color.BLUE);
                 blockList.add(block);
             }
@@ -71,13 +70,15 @@ public class Game {
         environment.addCollidable(new Rectangle(new Point(screenWidth, 0), 40, screenHeight));
         //Bottom
         environment.addCollidable(new Rectangle(new Point(0, screenHeight), screenWidth, 40));
-        //Creating the ball
-        Ball ball = new Ball(370, 350, 5, Color.BLACK, environment);
-        ball.setVelocity(0, 3);
-        ball.addToGame(this);
-        //TODO Blocks, Paddle
-        ArrayList<Rectangle> blocks = this.createBlockList();
-        for(Rectangle block:blocks){
+        //Creating the ball1
+        Ball ball1 = new Ball(370, 350, 5, Color.BLACK, environment);
+        Ball ball2= new Ball(370, 350, 5, Color.BLACK, environment);
+        ball1.setVelocity(-3, 3);
+        ball1.addToGame(this);
+        ball2.setVelocity(3, -3);
+        ball2.addToGame(this);
+        ArrayList<Block> blocks = this.createBlockList();
+        for(Block block:blocks){
             block.addToGame(this);
         }
         //Paddle

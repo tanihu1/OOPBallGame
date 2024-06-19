@@ -14,6 +14,7 @@ public class Paddle implements Collidable, Sprite {
     private int width;
     private int height;
     private Game g;
+    private boolean canMove = true;
 
     public Paddle(GUI gui, Game g, int moveSpeed, int width, int height) {
         this.keyboard = gui.getKeyboardSensor();
@@ -41,7 +42,6 @@ public class Paddle implements Collidable, Sprite {
         g.addCollidable(this);
         g.addSprite(this);
     }
-
     public void moveLeft() {
         Point updatedUpperLeft = new Point(collisionObject.getUpperLeft().getX() - moveSpeed,
                 collisionObject.getUpperLeft().getY());
@@ -56,14 +56,33 @@ public class Paddle implements Collidable, Sprite {
     }
 
     public void timePassed() {
-        if (keyboard.isPressed("a")) moveLeft();
-        if (keyboard.isPressed("d")) moveRight();
-        if (keyboard.isPressed("A")) moveLeft();
-        if (keyboard.isPressed("D")) moveRight();
-        if (keyboard.isPressed("ש")) moveLeft();
-        if (keyboard.isPressed("ג")) moveRight();
-        if (keyboard.isPressed(keyboard.LEFT_KEY)) moveLeft();
-        if (keyboard.isPressed(keyboard.RIGHT_KEY)) moveRight();
+        if (keyboard.isPressed("a")) {
+            moveLeft();
+            canMove = false;
+        }else if (keyboard.isPressed("d")) {
+            moveRight();
+            canMove = false;
+        }else if (keyboard.isPressed("A")) {
+            moveLeft();
+            canMove = false;
+        }else if (keyboard.isPressed("D")) {
+            moveRight();
+            canMove = false;
+        }else if (keyboard.isPressed("ש")) {
+            moveLeft();
+            canMove = false;
+        }else if (keyboard.isPressed("ג")) {
+            moveRight();
+            canMove = false;
+        }else if (keyboard.isPressed(keyboard.LEFT_KEY)) {
+            moveLeft();
+            canMove = false;
+        }else if (keyboard.isPressed(keyboard.RIGHT_KEY)) {
+            moveRight();
+            canMove = false;
+        }else{
+            canMove = true;
+        }
     }
 
     public void drawOn(DrawSurface d) {
