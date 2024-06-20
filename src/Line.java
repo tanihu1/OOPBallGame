@@ -4,8 +4,6 @@ import java.util.ArrayList;
  * This class represents a line in 2D space.
  * The line is defined by its start and end points.
  * It also has methods for calculating its length and slope.
- *
- * @author Yotam Ashman
  */
 public class Line {
     private final double x1;
@@ -217,7 +215,7 @@ public class Line {
                 if (dCmp(y2, y3)) {
                     return new Point(x1, y2);
                 }
-                //Lines are parallel to Y axis and do not intersect
+                //Lines are parallel to Y Axis and do not intersect
                 return null;
             } else {
                 double x2 = Math.max(this.x1, this.x2);
@@ -238,7 +236,7 @@ public class Line {
                 if (dCmp(x2, x3)) {
                     return new Point(x2, this.y1);
                 }
-                //Lines are parallel to X axis and do not intersect
+                //Lines are parallel to X Axis and do not intersect
                 return null;
 
             }
@@ -257,10 +255,10 @@ public class Line {
     }
 
     /**
-     * Returns the point of intersection of the line with the Y axis.
+     * Returns the point of intersection of the line with the Y Axis.
      * Returns null if the line is vertical.
      *
-     * @return The point of intersection of the line with the Y axis.
+     * @return The point of intersection of the line with the Y Axis.
      */
     public Point yIntersect() {
         double m = this.slope();
@@ -364,15 +362,19 @@ public class Line {
         intersections.add(p2);
         return intersections;
     }
-    // If this line does not intersect with the rectangle, return null.
-    // Otherwise, return the closest intersection point to the
-    // start of the line.
-    public Point closestIntersectionToStartOfLine(Rectangle rect){
+
+    /**
+     * Returns the closest intersection point with the rectangle to the start of the line.
+     *
+     * @param rect rectangle to test intersection with.
+     * @return the closest intersection point with the rectangle to the start of the line.
+     */
+    public Point closestIntersectionToStartOfLine(Rectangle rect) {
         java.util.List<Point> intersections = rect.intersectionPoints(this);
         Point result = null;
         double currentDistance = Double.POSITIVE_INFINITY;
-        for(Point point:intersections){
-            if(this.start().distance(point)<currentDistance){
+        for (Point point : intersections) {
+            if (this.start().distance(point) < currentDistance) {
                 result = point;
             }
         }

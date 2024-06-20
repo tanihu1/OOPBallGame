@@ -16,8 +16,10 @@ public class Velocity {
         this.dx = dx;
         this.dy = dy;
     }
+
     /**
      * Simple double comparing function.
+     *
      * @param x first double.
      * @param y second double.
      * @return true if doubles are equal up to 5 digits.
@@ -38,6 +40,12 @@ public class Velocity {
         double dy = speed * Math.sin(angle);
         return new Velocity(dx, dy);
     }
+
+    /**
+     * Change the angle of the velocity.
+     *
+     * @param angle angle to change to.
+     */
     public void changeAngle(int angle) {
         double radians = Math.toRadians(angle);
         double cosTheta = Math.cos(radians);
@@ -96,6 +104,7 @@ public class Velocity {
 
     /**
      * Dx accessor.
+     *
      * @return dx value.
      */
     public double getDx() {
@@ -104,6 +113,7 @@ public class Velocity {
 
     /**
      * Dy accessor.
+     *
      * @return dy value.
      */
     public double getDy() {

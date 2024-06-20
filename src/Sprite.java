@@ -1,6 +1,15 @@
+/**
+ * Interface representing an object that can be drawn inside the game.
+ */
 public interface Sprite {
-    // draw the sprite to the screen
+    /**
+     * Method to draw the sprite on a given drawsurface.
+     * @param d drawsurface to draw on.
+     */
     void drawOn(biuoop.DrawSurface d);
-    // notify the sprite that time has passed
+
+    /**
+     * Method to notify the sprite that time has passed.
+     */
     void timePassed();
 }

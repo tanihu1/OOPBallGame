@@ -1,9 +1,21 @@
+/**
+ * Collidable interface representing objects that can be
+ * collided with.
+ */
 public interface Collidable {
-    // Return the "collision shape" of the object.
+    /**
+     * Get the collision rectangle for this object.
+     *
+     * @return the collision rectangle
+     */
     Rectangle getCollisionRectangle();
-    // Notify the object that we collided with it at collisionPoint with
-    // a given velocity.
-    // The return is the new velocity expected after the hit (based on
-    // the force the object inflicted on us).
+
+    /**
+     * Calculates the velocity after a collision at the given point, based on the current velocity.
+     *
+     * @param collisionPoint  the point where the collision occurred
+     * @param currentVelocity the current velocity of the object
+     * @return the velocity after the collision
+     */
     Velocity hit(Point collisionPoint, Velocity currentVelocity);
 }
