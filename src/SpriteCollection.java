@@ -42,10 +42,10 @@ public class SpriteCollection {
      * Method to notify all sprites that time has passed.
      */
     public void notifyAllTimePassed() {
+        applyQueues();
         for (Sprite s : sprites) {
             s.timePassed();
         }
-        applyQueues();
     }
 
     /**

@@ -28,7 +28,7 @@ public class GameEnvironment {
     /**
      * Removes all collidables from the remove queue and clears the queue.
      */
-    private void removeCollidables() {
+     public void removeCollidables() {
         for (Collidable c : removeQueue) {
             collidables.remove(c);
         }

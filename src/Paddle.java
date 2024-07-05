@@ -14,7 +14,12 @@ public class Paddle implements Collidable, Sprite {
     private int width;
     private int height;
     private Game g;
+    private boolean isInGame = false;
+    //TODO check if needed
     private boolean canMove = true;
+    //The shadow paddle will create the illusion of teleporting paddle.
+    private static boolean shadowPaddleInitialized = false;
+    private Paddle shadowPaddle = null;
 
     /**
      * Paddle constructor.
@@ -33,6 +38,12 @@ public class Paddle implements Collidable, Sprite {
         this.g = g;
         collisionObject = new Rectangle(new Point(300, 560), width, height);
         collisionObject.setColor(Color.ORANGE);
+        if(shadowPaddleInitialized==false) {
+            shadowPaddleInitialized = true;
+            shadowPaddle = new Paddle(gui,g,moveSpeed,width,height);
+            shadowPaddle.collisionObject =new Rectangle(new Point(300, 560), width, height);
+            shadowPaddle.collisionObject.setColor(Color.ORANGE);
+        }
     }
 
     /**
@@ -54,19 +65,37 @@ public class Paddle implements Collidable, Sprite {
         Rectangle updatedCollisionObject;
         Point updatedUpperLeft = new Point(collisionObject.getUpperLeft().getX() + moveSpeed,
                 collisionObject.getUpperLeft().getY());
-        if (updatedUpperLeft.getX() >= g.getScreenWidth()) {
-            Point leftEdge = new Point(-width, collisionObject.getUpperLeft().getY());
+        //START HERE
+        if (updatedUpperLeft.getX()+width >= g.getScreenWidth()
+                && updatedUpperLeft.getX()<=g.getScreenWidth()
+                &&shadowPaddle!=null) {
+            //overWidth represents excess 'paddle' over the border
+            double overWidth = updatedUpperLeft.getX()+width-g.getScreenWidth();
+            Point leftEdge = new Point(-(width-overWidth),collisionObject.getUpperLeft().getY());
             updatedCollisionObject = new Rectangle(leftEdge, width, height);
-
+            updatedCollisionObject.setColor(collisionObject.getColor());
+            shadowPaddle.collisionObject = updatedCollisionObject;
+            if(shadowPaddle.isInGame==false){
+                shadowPaddle.addToGame();
+            }
+            updatedCollisionObject = new Rectangle(updatedUpperLeft, width, height);
+            updatedCollisionObject.setColor(collisionObject.getColor());
+            removeFromGame();
+            collisionObject = updatedCollisionObject;
+            addToGame();
+        } else if (updatedUpperLeft.getX()>g.getScreenWidth()
+        &&shadowPaddle!=null) {
+            removeFromGame();
+            collisionObject = shadowPaddle.getCollisionRectangle();
+            shadowPaddle.removeFromGame();
+            addToGame();
         } else {
             updatedCollisionObject = new Rectangle(updatedUpperLeft, width, height);
+            updatedCollisionObject.setColor(collisionObject.getColor());
+            removeFromGame();
+            collisionObject = updatedCollisionObject;
+            addToGame();
         }
-        updatedCollisionObject.setColor(collisionObject.getColor());
-        g.removeCollidable(this);
-        g.removeSprite(this);
-        collisionObject = updatedCollisionObject;
-        g.addCollidable(this);
-        g.addSprite(this);
     }
 
     /**
@@ -77,18 +106,37 @@ public class Paddle implements Collidable, Sprite {
         Rectangle updatedCollisionObject;
         Point updatedUpperLeft = new Point(collisionObject.getUpperLeft().getX() - moveSpeed,
                 collisionObject.getUpperLeft().getY());
-        if (updatedUpperLeft.getX() + width <= 0) {
-            Point rightEdge = new Point(g.getScreenWidth(), collisionObject.getUpperLeft().getY());
-            updatedCollisionObject = new Rectangle(rightEdge, width, height);
+        //START HERE
+        if (updatedUpperLeft.getX() <= 0
+                && updatedUpperLeft.getX()+width>=0
+                &&shadowPaddle!=null) {
+            //overWidth represents excess 'paddle' over the border
+            double overWidth = -updatedUpperLeft.getX();
+            Point leftEdge = new Point(g.getScreenWidth()-overWidth,collisionObject.getUpperLeft().getY());
+            updatedCollisionObject = new Rectangle(leftEdge, width, height);
+            updatedCollisionObject.setColor(collisionObject.getColor());
+            shadowPaddle.collisionObject = updatedCollisionObject;
+            if(shadowPaddle.isInGame==false){
+                shadowPaddle.addToGame();
+            }
+            updatedCollisionObject = new Rectangle(updatedUpperLeft, width, height);
+            updatedCollisionObject.setColor(collisionObject.getColor());
+            removeFromGame();
+            collisionObject = updatedCollisionObject;
+            addToGame();
+        } else if (updatedUpperLeft.getX()+width<0
+                &&shadowPaddle!=null) {
+            removeFromGame();
+            collisionObject = shadowPaddle.getCollisionRectangle();
+            shadowPaddle.removeFromGame();
+            addToGame();
         } else {
             updatedCollisionObject = new Rectangle(updatedUpperLeft, width, height);
+            updatedCollisionObject.setColor(collisionObject.getColor());
+            removeFromGame();
+            collisionObject = updatedCollisionObject;
+            addToGame();
         }
-        updatedCollisionObject.setColor(collisionObject.getColor());
-        g.removeCollidable(this);
-        g.removeSprite(this);
-        collisionObject = updatedCollisionObject;
-        g.addCollidable(this);
-        g.addSprite(this);
     }
 
     /**
@@ -189,5 +237,15 @@ public class Paddle implements Collidable, Sprite {
     public void addToGame() {
         g.addCollidable(this);
         g.addSprite(this);
+        isInGame = true;
+    }
+
+    /**
+     * Method to add the paddle to the game.
+     */
+    public void removeFromGame() {
+        g.removeCollidable(this);
+        g.removeSprite(this);
+        isInGame = false;
     }
 }

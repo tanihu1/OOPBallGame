@@ -154,7 +154,7 @@ public class Game {
         sprites.addSprite(bottom);
         sprites.addSprite(right);
         sprites.addSprite(left);
-        //Creating the ball1
+        //Creating the balls
         Ball ball1 = new Ball(300, 300, 5, Color.BLACK, environment, screenWidth, screenHeight);
         Ball ball2 = new Ball(370, 350, 5, Color.BLACK, environment, screenWidth, screenHeight);
         ball1.setVelocity(-3, -3);
@@ -179,6 +179,7 @@ public class Game {
         while (true) {
             long startTime = System.currentTimeMillis(); // timing
             DrawSurface d = gui.getDrawSurface();
+            environment.removeCollidables();
             this.sprites.drawAllOn(d);
             gui.show(d);
             this.sprites.notifyAllTimePassed();
