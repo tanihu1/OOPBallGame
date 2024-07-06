@@ -27,6 +27,8 @@ public class Block extends Rectangle {
     @Override
     public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
         Velocity v = super.hit(collisionPoint, currentVelocity);
+        g.removeSprite(this);
+        g.removeCollidable(this);
         return v;
     }
 }
