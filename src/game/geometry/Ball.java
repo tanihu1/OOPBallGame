@@ -1,4 +1,11 @@
+package game.geometry;
+
 import biuoop.DrawSurface;
+import game.Game;
+import game.GameEnvironment;
+import game.collision.CollisionInfo;
+import game.collision.Velocity;
+import game.sprites.Sprite;
 
 import java.awt.Color;
 import java.util.Random;
@@ -8,17 +15,17 @@ import java.util.Random;
  * It also handles the ball's interactions with defined borders and inverse borders.
  */
 public class Ball implements Sprite {
-    private Point center; //Ball center point
-    private final int r; //Ball radius
-    private java.awt.Color color; //Ball color
-    private Velocity velocity = new Velocity(0, 0); //Ball velocity
+    private Point center; //game.geometry.Ball center point
+    private final int r; //game.geometry.Ball radius
+    private java.awt.Color color; //game.geometry.Ball color
+    private Velocity velocity = new Velocity(0, 0); //game.geometry.Ball velocity
     private final double cmp = 0.00001;
     private GameEnvironment g;
     private final int screenWidth;
     private final int screenHeight;
 
     /**
-     * Ball constructor with point arg for center.
+     * game.geometry.Ball constructor with point arg for center.
      *
      * @param center       center point of ball.
      * @param r            radius of ball.
@@ -36,13 +43,13 @@ public class Ball implements Sprite {
     }
 
     /**
-     * Ball constructor with  int args.
+     * game.geometry.Ball constructor with  int args.
      *
      * @param x            x coordinate of center.
      * @param y            y coordinate of center.
      * @param r            radius of ball.
      * @param color        color of ball.
-     * @param g            Game Environment reference.
+     * @param g            game.Game Environment reference.
      * @param screenWidth  width of GUI screen.
      * @param screenHeight height of GUI screen.
      */
@@ -56,13 +63,13 @@ public class Ball implements Sprite {
     }
 
     /**
-     * Ball constructor with double args.
+     * game.geometry.Ball constructor with double args.
      *
      * @param x            x coordinate of center.
      * @param y            y coordinate of center.
      * @param r            radius of ball.
      * @param color        color of ball.
-     * @param g            Game Environment reference.
+     * @param g            game.Game Environment reference.
      * @param screenWidth  width of GUI screen.
      * @param screenHeight height of GUI screen.
      */
@@ -88,7 +95,7 @@ public class Ball implements Sprite {
     // accessors
 
     /**
-     * A method to get the x-coordinate of the center of the Ball.
+     * A method to get the x-coordinate of the center of the game.geometry.Ball.
      *
      * @return The x-coordinate of the center as an integer.
      */
@@ -97,7 +104,7 @@ public class Ball implements Sprite {
     }
 
     /**
-     * A method to get the Y coordinate of the Ball's center.
+     * A method to get the Y coordinate of the game.geometry.Ball's center.
      *
      * @return the Y coordinate of the center
      */
@@ -106,9 +113,9 @@ public class Ball implements Sprite {
     }
 
     /**
-     * A method to get the size of the Ball.
+     * A method to get the size of the game.geometry.Ball.
      *
-     * @return the size of the Ball as an integer
+     * @return the size of the game.geometry.Ball as an integer
      */
     public int getSize() {
         return r;

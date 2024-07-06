@@ -1,5 +1,7 @@
+package game.geometry;
+
 /**
- * Point class consisting of x and y coordinates.
+ * game.geometry.Point class consisting of x and y coordinates.
  */
 public class Point {
     private double x;
@@ -7,7 +9,7 @@ public class Point {
     private final double cmp = 0.00001;
 
     /**
-     * Point constructor with two doubles.
+     * game.geometry.Point constructor with two doubles.
      *
      * @param x x coordinate.
      * @param y y coordinate.
@@ -31,7 +33,7 @@ public class Point {
     /**
      * Calculates the distance between this point and another point.
      *
-     * @param other the other Point object to calculate the distance to
+     * @param other the other game.geometry.Point object to calculate the distance to
      * @return the Euclidean distance between this point and the other point
      */
     public double distance(Point other) {
@@ -39,7 +41,7 @@ public class Point {
     }
 
     /**
-     * Set the x coordinate of the Point object.
+     * Set the x coordinate of the game.geometry.Point object.
      *
      * @param x the new x coordinate value
      */
@@ -57,9 +59,9 @@ public class Point {
     }
 
     /**
-     * Compares this Point with another Point for equality.
+     * Compares this game.geometry.Point with another game.geometry.Point for equality.
      *
-     * @param other the other Point object to compare with
+     * @param other the other game.geometry.Point object to compare with
      * @return true if the Points are equal, false otherwise
      */
     public boolean equals(Point other) {

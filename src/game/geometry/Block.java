@@ -1,3 +1,8 @@
+package game.geometry;
+
+import game.Game;
+import game.collision.Velocity;
+
 /**
  * A rectangle extension, will be used in the future to modify
  * hit method to remove the object from the screen one hit.
@@ -6,7 +11,7 @@ public class Block extends Rectangle {
     private final Game g;
 
     /**
-     * Block constructor.
+     * game.geometry.Block constructor.
      * @param upperLeft upperLeft point of the rectangle representing the block.
      * @param width width of said rectangle.
      * @param height height of said rectangle.

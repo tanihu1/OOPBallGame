@@ -1,5 +1,10 @@
+package game.collision;
+
+import game.geometry.Point;
+import game.geometry.Rectangle;
+
 /**
- * Collidable interface representing objects that can be
+ * game.collision.Collidable interface representing objects that can be
  * collided with.
  */
 public interface Collidable {

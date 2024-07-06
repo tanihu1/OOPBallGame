@@ -1,3 +1,5 @@
+package game.sprites;
+
 /**
  * Class containing a collection of sprites in the game.
  */

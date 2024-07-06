@@ -1,3 +1,5 @@
+package game;
+
 /**
  * The main Class of the program.
  *

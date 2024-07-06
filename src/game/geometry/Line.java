@@ -1,3 +1,5 @@
+package game.geometry;
+
 import java.util.ArrayList;
 
 /**
@@ -317,10 +319,10 @@ public class Line {
     }
 
     /**
-     * Calculates the intersection points between this Line and a circle defined by the Ball object.
+     * Calculates the intersection points between this game.geometry.Line and a circle defined by the game.geometry.Ball object.
      *
-     * @param circ The Ball object representing the circle to intersect with.
-     * @return An ArrayList of Point objects representing the intersection points.
+     * @param circ The game.geometry.Ball object representing the circle to intersect with.
+     * @return An ArrayList of game.geometry.Point objects representing the intersection points.
      */
     public ArrayList<Point> intersectionWithCirc(Ball circ) {
         Point pointA = this.start;

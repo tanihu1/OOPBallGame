@@ -1,10 +1,16 @@
+package game.geometry;
+
 import biuoop.DrawSurface;
 import biuoop.GUI;
+import game.Game;
+import game.collision.Collidable;
+import game.collision.Velocity;
+import game.sprites.Sprite;
 
 import java.awt.Color;
 
 /**
- * Paddle class for the game.
+ * game.geometry.Paddle class for the game.
  */
 public class Paddle implements Collidable, Sprite {
     private final biuoop.KeyboardSensor keyboard;
@@ -22,7 +28,7 @@ public class Paddle implements Collidable, Sprite {
     private Paddle shadowPaddle = null;
 
     /**
-     * Paddle constructor.
+     * game.geometry.Paddle constructor.
      *
      * @param gui       reference to the GUI.
      * @param g         reference to the game environment.
@@ -196,7 +202,7 @@ public class Paddle implements Collidable, Sprite {
 
     /**
      * Calculates and returns the new velocity of the ball after it hits the paddle.
-     * Paddle has five regions, each with a different angle of velocity change.
+     * game.geometry.Paddle has five regions, each with a different angle of velocity change.
      * If the ball hits the paddle below the top surface, paddle acts as a normal block.
      *
      * @param collisionPoint  the point where the collision occurred

@@ -1,12 +1,18 @@
+package game;
+
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
+import game.collision.Collidable;
+import game.geometry.*;
+import game.sprites.Sprite;
+import game.sprites.SpriteCollection;
 
 import java.awt.Color;
 import java.util.ArrayList;
 
 /**
- * Game class containing the logic of the game.
+ * game.Game class containing the logic of the game.
  */
 public class Game {
     private final SpriteCollection sprites = new SpriteCollection();
@@ -17,7 +23,7 @@ public class Game {
     private int screenHeight;
 
     /**
-     * Game constructor.
+     * game.Game constructor.
      *
      * @param width  GUI width.
      * @param height GUI height.
@@ -165,7 +171,7 @@ public class Game {
         for (Block block : blocks) {
             block.addToGame(this);
         }
-        //Paddle
+        //game.geometry.Paddle
         Paddle player = new Paddle(gui, this, 3, 200, 20);
         player.addToGame();
     }

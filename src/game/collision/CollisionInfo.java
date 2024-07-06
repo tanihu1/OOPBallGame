@@ -1,3 +1,7 @@
+package game.collision;
+
+import game.geometry.Point;
+
 import java.util.ArrayList;
 import java.util.Collections;
 

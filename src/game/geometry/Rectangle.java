@@ -1,4 +1,10 @@
+package game.geometry;
+
 import biuoop.DrawSurface;
+import game.Game;
+import game.collision.Collidable;
+import game.collision.Velocity;
+import game.sprites.Sprite;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -16,7 +22,7 @@ public class Rectangle implements Collidable, Sprite {
     private Color color;
 
     /**
-     * Rectangle constructor.
+     * game.geometry.Rectangle constructor.
      *
      * @param upperLeft upper left point of the rectangle.
      * @param width     width of the rectangle.
@@ -105,7 +111,7 @@ public class Rectangle implements Collidable, Sprite {
     }
 
     /**
-     * Rectangle width getter.
+     * game.geometry.Rectangle width getter.
      *
      * @return the width value of the rectangle.
      */
@@ -114,7 +120,7 @@ public class Rectangle implements Collidable, Sprite {
     }
 
     /**
-     * Rectangle height getter.
+     * game.geometry.Rectangle height getter.
      *
      * @return the height value of the rectangle.
      */
@@ -157,7 +163,7 @@ public class Rectangle implements Collidable, Sprite {
      * @return updated velocity after the hit.
      */
     public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
-        //Velocity offset to make the ball movement a bit random and more natural
+        //game.collision.Velocity offset to make the ball movement a bit random and more natural
         java.util.Random rand = new java.util.Random();
         double vOffset = -rand.nextDouble(); //On unix bound must not be defined inside func.
         int left = 0;

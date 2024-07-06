@@ -1,3 +1,7 @@
+package game.collision;
+
+import game.geometry.Point;
+
 /**
  * A velocity class that tracks the movement speed and direction of a ball.
  */
@@ -7,7 +11,7 @@ public class Velocity {
     private final double cmp = 0.00001;
 
     /**
-     * Velocity constructor using two doubles.
+     * game.collision.Velocity constructor using two doubles.
      *
      * @param dx x movement.
      * @param dy y movement.
@@ -29,11 +33,11 @@ public class Velocity {
     }
 
     /**
-     * A static method that creates a new Velocity object based on the given angle and speed.
+     * A static method that creates a new game.collision.Velocity object based on the given angle and speed.
      *
      * @param angle the angle in radians
      * @param speed the speed of the velocity
-     * @return a new Velocity object with the calculated dx and dy components
+     * @return a new game.collision.Velocity object with the calculated dx and dy components
      */
     public Velocity fromAngleAndSpeed(double angle, double speed) {
         double dx = speed * Math.cos(angle);
