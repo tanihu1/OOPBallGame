@@ -5,10 +5,12 @@ import biuoop.GUI;
 import biuoop.Sleeper;
 import game.hitListeners.BallRemover;
 import game.hitListeners.BlockRemover;
+import game.hitListeners.ScoreTrackingListener;
 import game.interfaces.Collidable;
 import game.geometry.*;
 import game.interfaces.HitListener;
 import game.interfaces.Sprite;
+import game.sprites.ScoreIndicator;
 import game.sprites.SpriteCollection;
 
 import java.awt.Color;
@@ -29,6 +31,9 @@ public class Game {
     //Counters
     private Counter remainingBlocks;
     private Counter remainingBalls;
+    private Counter score;
+    //Score indicator
+    private ScoreIndicator scoreDisplay;
 
     /**
      * game.Game constructor.
@@ -154,7 +159,7 @@ public class Game {
         //Setting screen borders
         Rectangle top = new Rectangle(new Point(0, 0), new Point(800, 20));
         Rectangle left = new Rectangle(new Point(0, 0), new Point(20, 600));
-        Rectangle bottom = new Rectangle(new Point(0, 580), new Point(800, 600));
+        Rectangle bottom = new Rectangle(new Point(0, 599), new Point(800, 600));
         Rectangle right = new Rectangle(new Point(780, 0), new Point(800, 600));
         top.setColor(Color.GRAY);
         left.setColor(Color.GRAY);
@@ -165,16 +170,18 @@ public class Game {
         environment.addCollidable(right);
         environment.addCollidable(left);
         sprites.addSprite(top);
-        sprites.addSprite(bottom);
         sprites.addSprite(right);
         sprites.addSprite(left);
         //Creating the balls
         Ball ball1 = new Ball(300, 300, 5, Color.BLACK, environment, screenWidth, screenHeight);
         Ball ball2 = new Ball(370, 350, 5, Color.BLACK, environment, screenWidth, screenHeight);
+        Ball ball3 = new Ball(370, 350, 5, Color.BLACK, environment, screenWidth, screenHeight);
         ball1.setVelocity(-3, -3);
         ball1.addToGame(this);
         ball2.setVelocity(3, -3);
         ball2.addToGame(this);
+        ball3.setVelocity(3, 3);
+        ball3.addToGame(this);
         ArrayList<Block> blocks = this.createBlockList();
         for (Block block : blocks) {
             block.addToGame(this);
@@ -186,9 +193,14 @@ public class Game {
         remainingBlocks = new Counter();
         remainingBlocks.increase(blocks.size());
         remainingBalls = new Counter();
-        remainingBalls.increase(2);
+        remainingBalls.increase(3);
+        //Score
+        score = new Counter();
+        scoreDisplay = new ScoreIndicator(score);
+        sprites.addSprite(scoreDisplay);
         //Initializing hit listeners
         hitListeners.add(new BlockRemover(this,remainingBlocks));
+        hitListeners.add(new ScoreTrackingListener((score)));
         BallRemover deathZone = new BallRemover(this,remainingBalls);
         //Registering hit listeners
         for(HitListener listener:hitListeners) {
@@ -208,6 +220,10 @@ public class Game {
         while (true) {
             //Game condition
             if (remainingBlocks.isEmpty()) {
+                score.increase(100);
+                return;
+            }
+            if(remainingBalls.isEmpty()) {
                 return;
             }
             long startTime = System.currentTimeMillis(); // timing

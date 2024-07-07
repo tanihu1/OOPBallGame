@@ -231,7 +231,7 @@ public class Ball implements Sprite {
         if (center.getY() < 20) {
             this.center.changeY(r + 21);
         }
-        if (center.getY() > screenHeight - 20) {
+        if (center.getY() > screenHeight+2) {
             this.center.changeY(screenHeight - r - 21);
         }
         if (center.getX() < 20) {

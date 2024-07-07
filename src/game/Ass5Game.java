@@ -4,7 +4,7 @@ package game;
  * The main Class of the program.
  *
  */
-public class Ass3Game {
+public class Ass5Game {
     /**
      * The main method of the program.
      *
