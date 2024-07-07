@@ -1,6 +1,6 @@
 package game;
 
-import game.collision.Collidable;
+import game.interfaces.Collidable;
 import game.collision.CollisionInfo;
 import game.geometry.Line;
 import game.geometry.Point;

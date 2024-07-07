@@ -1,6 +1,7 @@
 package game.collision;
 
 import game.geometry.Point;
+import game.interfaces.Collidable;
 
 import java.util.ArrayList;
 import java.util.Collections;

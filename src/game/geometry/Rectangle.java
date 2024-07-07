@@ -2,24 +2,28 @@ package game.geometry;
 
 import biuoop.DrawSurface;
 import game.Game;
-import game.collision.Collidable;
+import game.interfaces.Collidable;
 import game.collision.Velocity;
-import game.sprites.Sprite;
+import game.interfaces.HitListener;
+import game.interfaces.HitNotifier;
+import game.interfaces.Sprite;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Basic rectangle class.
  */
-public class Rectangle implements Collidable, Sprite {
+public class Rectangle implements Collidable, Sprite, HitNotifier {
     private final Point upperLeft;
     private final Point bottomRight;
     private final double width;
     private final double height;
     private final double cmp = 0.00001;
     private Color color;
+    private List<HitListener> hitListeners = new ArrayList<>();
 
     /**
      * game.geometry.Rectangle constructor.
@@ -162,7 +166,10 @@ public class Rectangle implements Collidable, Sprite {
      * @param currentVelocity the current velocity of the object
      * @return updated velocity after the hit.
      */
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
+    public Velocity hit(Point collisionPoint, Velocity currentVelocity, Ball hitter) {
+        for(HitListener hl:hitListeners) {
+            hl.hitEvent(this,hitter);
+        }
         //game.collision.Velocity offset to make the ball movement a bit random and more natural
         java.util.Random rand = new java.util.Random();
         double vOffset = -rand.nextDouble(); //On unix bound must not be defined inside func.
@@ -220,5 +227,14 @@ public class Rectangle implements Collidable, Sprite {
      */
     public Color getColor() {
         return color;
+    }
+
+    @Override
+    public void addHitListener(HitListener hl) {
+        hitListeners.add(hl);
+    }
+    @Override
+    public void removeHitListener(HitListener hl) {
+        hitListeners.remove(hl);
     }
 }

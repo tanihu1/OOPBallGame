@@ -3,13 +3,17 @@ package game;
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
-import game.collision.Collidable;
+import game.hitListeners.BallRemover;
+import game.hitListeners.BlockRemover;
+import game.interfaces.Collidable;
 import game.geometry.*;
-import game.sprites.Sprite;
+import game.interfaces.HitListener;
+import game.interfaces.Sprite;
 import game.sprites.SpriteCollection;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * game.Game class containing the logic of the game.
@@ -21,6 +25,10 @@ public class Game {
     private final Sleeper sleeper = new Sleeper();
     private int screenWidth;
     private int screenHeight;
+    private List<HitListener> hitListeners = new ArrayList<>();
+    //Counters
+    private Counter remainingBlocks;
+    private Counter remainingBalls;
 
     /**
      * game.Game constructor.
@@ -174,6 +182,21 @@ public class Game {
         //game.geometry.Paddle
         Paddle player = new Paddle(gui, this, 3, 200, 20);
         player.addToGame();
+        //Initializing Counters
+        remainingBlocks = new Counter();
+        remainingBlocks.increase(blocks.size());
+        remainingBalls = new Counter();
+        remainingBalls.increase(2);
+        //Initializing hit listeners
+        hitListeners.add(new BlockRemover(this,remainingBlocks));
+        BallRemover deathZone = new BallRemover(this,remainingBalls);
+        //Registering hit listeners
+        for(HitListener listener:hitListeners) {
+            for(Block b:blocks) {
+                b.addHitListener(listener);
+            }
+        }
+        bottom.addHitListener(deathZone);
     }
 
     /**
@@ -183,6 +206,10 @@ public class Game {
         int framesPerSecond = 60;
         int millisecondsPerFrame = 1000 / framesPerSecond;
         while (true) {
+            //Game condition
+            if (remainingBlocks.isEmpty()) {
+                return;
+            }
             long startTime = System.currentTimeMillis(); // timing
             DrawSurface d = gui.getDrawSurface();
             environment.removeCollidables();

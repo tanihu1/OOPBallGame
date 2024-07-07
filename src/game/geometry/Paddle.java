@@ -3,9 +3,9 @@ package game.geometry;
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import game.Game;
-import game.collision.Collidable;
+import game.interfaces.Collidable;
 import game.collision.Velocity;
-import game.sprites.Sprite;
+import game.interfaces.Sprite;
 
 import java.awt.Color;
 
@@ -209,13 +209,13 @@ public class Paddle implements Collidable, Sprite {
      * @param currentVelocity the current velocity of the object
      * @return updated velocity after the hit.
      */
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
+    public Velocity hit(Point collisionPoint, Velocity currentVelocity,Ball hitter) {
         //If the collision is below the paddle top, act as a normal block
         if (collisionPoint.getY() > collisionObject.getUpperLeft().getY()) {
             Rectangle blockPaddle = new Rectangle(collisionObject.getUpperLeft(),
                     width,
                     height);
-            return blockPaddle.hit(collisionPoint, currentVelocity);
+            return blockPaddle.hit(collisionPoint, currentVelocity,hitter);
         }
         double region1 = collisionObject.getUpperLeft().getX();
         double region2 = region1 + width / 5;

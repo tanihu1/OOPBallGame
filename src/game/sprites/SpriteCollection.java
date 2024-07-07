@@ -1,5 +1,7 @@
 package game.sprites;
 
+import game.interfaces.Sprite;
+
 /**
  * Class containing a collection of sprites in the game.
  */

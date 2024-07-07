@@ -1,4 +1,4 @@
-package game.sprites;
+package game.interfaces;
 
 /**
  * Interface representing an object that can be drawn inside the game.

@@ -1,10 +1,12 @@
-package game.collision;
+package game.interfaces;
 
+import game.collision.Velocity;
+import game.geometry.Ball;
 import game.geometry.Point;
 import game.geometry.Rectangle;
 
 /**
- * game.collision.Collidable interface representing objects that can be
+ * game.interfaces.Collidable interface representing objects that can be
  * collided with.
  */
 public interface Collidable {
@@ -22,5 +24,5 @@ public interface Collidable {
      * @param currentVelocity the current velocity of the object
      * @return the velocity after the collision
      */
-    Velocity hit(Point collisionPoint, Velocity currentVelocity);
+    Velocity hit(Point collisionPoint, Velocity currentVelocity, Ball hitter);
 }

@@ -5,7 +5,7 @@ import game.Game;
 import game.GameEnvironment;
 import game.collision.CollisionInfo;
 import game.collision.Velocity;
-import game.sprites.Sprite;
+import game.interfaces.Sprite;
 
 import java.awt.Color;
 import java.util.Random;
@@ -143,12 +143,8 @@ public class Ball implements Sprite {
     /**
      * Set a random color for the ball.
      */
-    public void setRandomColor() {
-        java.util.Random rand = new Random();
-        int r = rand.nextInt(255);
-        int g = rand.nextInt(255);
-        int b = rand.nextInt(255);
-        color = new Color(r, g, b);
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     /**
@@ -222,7 +218,7 @@ public class Ball implements Sprite {
                     break;
             }
             this.center = futureLoc;
-            this.setVelocity(collision.collisionObject().hit(collision.collisionPoint(), this.getVelocity()));
+            this.setVelocity(collision.collisionObject().hit(collision.collisionPoint(), this.getVelocity(),this));
         } else {
             this.center = futureLoc;
         }
@@ -253,5 +249,8 @@ public class Ball implements Sprite {
      */
     public void addToGame(Game game) {
         game.addSprite(this);
+    }
+    public void removeFromGame(Game game) {
+        game.removeSprite(this);
     }
 }
