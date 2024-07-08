@@ -1,4 +1,4 @@
-package game;
+import game.Game;
 
 /**
  * The main Class of the program.

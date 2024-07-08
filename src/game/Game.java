@@ -187,7 +187,7 @@ public class Game {
             block.addToGame(this);
         }
         //game.geometry.Paddle
-        Paddle player = new Paddle(gui, this, 3, 200, 20);
+        Paddle player = new Paddle(gui, this, 5, 200, 20);
         player.addToGame();
         //Initializing Counters
         remainingBlocks = new Counter();
@@ -221,10 +221,10 @@ public class Game {
             //Game condition
             if (remainingBlocks.isEmpty()) {
                 score.increase(100);
-                return;
+                wonScreen(gui,scoreDisplay);
             }
             if(remainingBalls.isEmpty()) {
-                return;
+                lostScreen(gui,scoreDisplay);
             }
             long startTime = System.currentTimeMillis(); // timing
             DrawSurface d = gui.getDrawSurface();
@@ -239,5 +239,31 @@ public class Game {
                 sleeper.sleepFor(milliSecondLeftToSleep);
             }
         }
+    }
+    public void lostScreen(GUI gui, ScoreIndicator score) {
+        while(true) {
+            DrawSurface d = gui.getDrawSurface();
+            d.setColor(Color.BLACK);
+            d.fillRectangle(0,0,screenWidth,screenHeight);
+            d.setColor(Color.RED);
+            d.drawText(screenWidth/2-95,screenHeight/2-30,"YOU LOST!",30);
+            d.setColor(Color.YELLOW);
+            d.drawText(screenWidth/2-100,screenHeight/2,"Final score: "+score.toString(),30);
+            gui.show(d);
+        }
+
+    }
+    public void wonScreen(GUI gui, ScoreIndicator score) {
+        while(true) {
+            DrawSurface d = gui.getDrawSurface();
+            d.setColor(Color.BLACK);
+            d.fillRectangle(0,0,screenWidth,screenHeight);
+            d.setColor(Color.GREEN);
+            d.drawText(screenWidth/2-95,screenHeight/2-30,"YOU WON!",30);
+            d.setColor(Color.YELLOW);
+            d.drawText(screenWidth/2-100,screenHeight/2,"Final score: "+score.toString(),30);
+            gui.show(d);
+        }
+
     }
 }

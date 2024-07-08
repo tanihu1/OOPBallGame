@@ -18,4 +18,8 @@ public class ScoreIndicator implements Sprite {
     public void timePassed() {
         return;
     }
+    @Override
+    public String toString() {
+        return Integer.toString(score.getValue());
+    }
 }
