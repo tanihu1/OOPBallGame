@@ -8,7 +8,6 @@ import game.collision.Velocity;
 import game.interfaces.Sprite;
 
 import java.awt.Color;
-import java.util.Random;
 
 /**
  * The class represents a ball object with a center, radius, color, and velocity.
@@ -141,7 +140,9 @@ public class Ball implements Sprite {
     }
 
     /**
-     * Set a random color for the ball.
+     * Set a color for the ball.
+     *
+     * @param color color to set.
      */
     public void setColor(Color color) {
         this.color = color;
@@ -218,7 +219,7 @@ public class Ball implements Sprite {
                     break;
             }
             this.center = futureLoc;
-            this.setVelocity(collision.collisionObject().hit(collision.collisionPoint(), this.getVelocity(),this));
+            this.setVelocity(collision.collisionObject().hit(collision.collisionPoint(), this.getVelocity(), this));
         } else {
             this.center = futureLoc;
         }
@@ -231,7 +232,7 @@ public class Ball implements Sprite {
         if (center.getY() < 20) {
             this.center.changeY(r + 21);
         }
-        if (center.getY() > screenHeight+2) {
+        if (center.getY() > screenHeight + 2) {
             this.center.changeY(screenHeight - r - 21);
         }
         if (center.getX() < 20) {
@@ -250,6 +251,12 @@ public class Ball implements Sprite {
     public void addToGame(Game game) {
         game.addSprite(this);
     }
+
+    /**
+     * Remove ball from game.
+     *
+     * @param game game object to remove from.
+     */
     public void removeFromGame(Game game) {
         game.removeSprite(this);
     }

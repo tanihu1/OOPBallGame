@@ -39,10 +39,11 @@ public class Rectangle implements Collidable, Sprite, HitNotifier {
         this.width = width;
         this.height = height;
     }
+
     /**
      * Constructor using two points.
      *
-     * @param upperLeft upper left point.
+     * @param upperLeft   upper left point.
      * @param bottomRight bottom right point.
      */
     public Rectangle(Point upperLeft, Point bottomRight) {
@@ -164,11 +165,12 @@ public class Rectangle implements Collidable, Sprite, HitNotifier {
      *
      * @param collisionPoint  the point where the collision occurred
      * @param currentVelocity the current velocity of the object
+     * @param hitter ball that hit the rectangle.
      * @return updated velocity after the hit.
      */
     public Velocity hit(Point collisionPoint, Velocity currentVelocity, Ball hitter) {
-        for(HitListener hl:hitListeners) {
-            hl.hitEvent(this,hitter);
+        for (HitListener hl : hitListeners) {
+            hl.hitEvent(this, hitter);
         }
         //game.collision.Velocity offset to make the ball movement a bit random and more natural
         java.util.Random rand = new java.util.Random();
@@ -233,6 +235,7 @@ public class Rectangle implements Collidable, Sprite, HitNotifier {
     public void addHitListener(HitListener hl) {
         hitListeners.add(hl);
     }
+
     @Override
     public void removeHitListener(HitListener hl) {
         hitListeners.remove(hl);

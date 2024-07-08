@@ -319,7 +319,8 @@ public class Line {
     }
 
     /**
-     * Calculates the intersection points between this game.geometry.Line and a circle defined by the game.geometry.Ball object.
+     * Calculates the intersection points between this
+     * line and a circle defined by the game.geometry.Ball object.
      *
      * @param circ The game.geometry.Ball object representing the circle to intersect with.
      * @return An ArrayList of game.geometry.Point objects representing the intersection points.

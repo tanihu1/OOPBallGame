@@ -7,7 +7,11 @@ import game.hitListeners.BallRemover;
 import game.hitListeners.BlockRemover;
 import game.hitListeners.ScoreTrackingListener;
 import game.interfaces.Collidable;
-import game.geometry.*;
+import game.geometry.Ball;
+import game.geometry.Paddle;
+import game.geometry.Block;
+import game.geometry.Rectangle;
+import game.geometry.Point;
 import game.interfaces.HitListener;
 import game.interfaces.Sprite;
 import game.sprites.ScoreIndicator;
@@ -199,12 +203,12 @@ public class Game {
         scoreDisplay = new ScoreIndicator(score);
         sprites.addSprite(scoreDisplay);
         //Initializing hit listeners
-        hitListeners.add(new BlockRemover(this,remainingBlocks));
+        hitListeners.add(new BlockRemover(this, remainingBlocks));
         hitListeners.add(new ScoreTrackingListener((score)));
-        BallRemover deathZone = new BallRemover(this,remainingBalls);
+        BallRemover deathZone = new BallRemover(this, remainingBalls);
         //Registering hit listeners
-        for(HitListener listener:hitListeners) {
-            for(Block b:blocks) {
+        for (HitListener listener : hitListeners) {
+            for (Block b : blocks) {
                 b.addHitListener(listener);
             }
         }
@@ -221,10 +225,10 @@ public class Game {
             //Game condition
             if (remainingBlocks.isEmpty()) {
                 score.increase(100);
-                wonScreen(gui,scoreDisplay);
+                wonScreen(gui, scoreDisplay);
             }
-            if(remainingBalls.isEmpty()) {
-                lostScreen(gui,scoreDisplay);
+            if (remainingBalls.isEmpty()) {
+                lostScreen(gui, scoreDisplay);
             }
             long startTime = System.currentTimeMillis(); // timing
             DrawSurface d = gui.getDrawSurface();
@@ -240,28 +244,42 @@ public class Game {
             }
         }
     }
+
+    /**
+     * Displays losing screen if all balls were lost.
+     *
+     * @param gui   screen to display on.
+     * @param score player's score.
+     */
     public void lostScreen(GUI gui, ScoreIndicator score) {
-        while(true) {
+        while (true) {
             DrawSurface d = gui.getDrawSurface();
             d.setColor(Color.BLACK);
-            d.fillRectangle(0,0,screenWidth,screenHeight);
+            d.fillRectangle(0, 0, screenWidth, screenHeight);
             d.setColor(Color.RED);
-            d.drawText(screenWidth/2-95,screenHeight/2-30,"YOU LOST!",30);
+            d.drawText(screenWidth / 2 - 95, screenHeight / 2 - 30, "YOU LOST!", 30);
             d.setColor(Color.YELLOW);
-            d.drawText(screenWidth/2-100,screenHeight/2,"Final score: "+score.toString(),30);
+            d.drawText(screenWidth / 2 - 100, screenHeight / 2, "Final score: " + score.toString(), 30);
             gui.show(d);
         }
 
     }
+
+    /**
+     * Displays winning screen if all blocks were blown.
+     *
+     * @param gui   screen to display on.
+     * @param score player's score.
+     */
     public void wonScreen(GUI gui, ScoreIndicator score) {
-        while(true) {
+        while (true) {
             DrawSurface d = gui.getDrawSurface();
             d.setColor(Color.BLACK);
-            d.fillRectangle(0,0,screenWidth,screenHeight);
+            d.fillRectangle(0, 0, screenWidth, screenHeight);
             d.setColor(Color.GREEN);
-            d.drawText(screenWidth/2-95,screenHeight/2-30,"YOU WON!",30);
+            d.drawText(screenWidth / 2 - 95, screenHeight / 2 - 30, "YOU WON!", 30);
             d.setColor(Color.YELLOW);
-            d.drawText(screenWidth/2-100,screenHeight/2,"Final score: "+score.toString(),30);
+            d.drawText(screenWidth / 2 - 100, screenHeight / 2, "Final score: " + score.toString(), 30);
             gui.show(d);
         }
 

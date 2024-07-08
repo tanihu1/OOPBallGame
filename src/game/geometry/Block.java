@@ -18,10 +18,11 @@ public class Block extends Rectangle implements HitNotifier {
 
     /**
      * game.geometry.Block constructor.
+     *
      * @param upperLeft upperLeft point of the rectangle representing the block.
-     * @param width width of said rectangle.
-     * @param height height of said rectangle.
-     * @param g game object reference.
+     * @param width     width of said rectangle.
+     * @param height    height of said rectangle.
+     * @param g         game object reference.
      */
     public Block(Point upperLeft, double width, double height, Game g) {
         super(upperLeft, width, height);
@@ -37,21 +38,33 @@ public class Block extends Rectangle implements HitNotifier {
      */
     @Override
     public Velocity hit(Point collisionPoint, Velocity currentVelocity, Ball hitter) {
-        Velocity v = super.hit(collisionPoint, currentVelocity,hitter);
-        if(!ballColorMatch(hitter)) {
+        Velocity v = super.hit(collisionPoint, currentVelocity, hitter);
+        if (!ballColorMatch(hitter)) {
             notifyHit(hitter);
         }
         return v;
     }
 
+    /**
+     * Tests if the provided ball matches color with the block.
+     *
+     * @param ball ball to test.
+     * @return true if the ball matches color.
+     */
     public Boolean ballColorMatch(Ball ball) {
         return ball.getColor().equals(super.getColor());
     }
 
+    /**
+     * Removes the block from a given game object.
+     *
+     * @param g game to remove from.
+     */
     public void removeFromGame(Game g) {
         g.removeSprite(this);
         g.removeCollidable(this);
     }
+
     private void notifyHit(Ball hitter) {
         // Make a copy of the hitListeners before iterating over them.
         List<HitListener> listeners = new ArrayList<HitListener>(this.hitListeners);
